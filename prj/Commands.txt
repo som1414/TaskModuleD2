@@ -1,0 +1,101 @@
+
+>>> user1 = User.objects.create(username='som', first_name='Dmitriy', last_name='Somov') 
+>>> Author.objects.create(authUser=user1)
+<Author: Author object (1)>
+>>> user2 = User.objects.create(username='semyon', first_name='Alexandr', last_name='Syomin') 
+>>> Author.objects.create(authUser=user2)                                                     
+<Author: Author object (2)>
+
+>>> Category.objects.create(designation='Society')
+<Category: Category object (1)>
+>>> Category.objects.create(designation='Technic') 
+<Category: Category object (2)>
+>>> Category.objects.create(designation='Electronic') 
+<Category: Category object (3)>
+>>> Category.objects.create(designation='Programming') 
+<Category: Category object (4)>
+
+>>> Post.objects.create(author=Author.objects.get(authUser=User.objects.get(username='semyon')), categorySort='NW', title='SVGKJVsdkvhSDKBVKSjdbvKSDBJV', text='asgfjkasgfjkgfajsKGFajsg
+fasgfASGJFGsajkgfjkSAFBKJSAFBKSJdvbKJSAVBKsjavbKSJDBVKJsdbvkjdsBVXJKDSBvkjbdskvjbdsKJVBKJDSbvkjdsbvkjdsbvkjdsbvkjdsbzvkjSDBVJksdgvboi;ehvdoiDSHVNOIEHSVDBSJKVBKJDSBVKJDSBVKDSNVKDSV')
+<Post: Post object (1)>
+>>> Post.objects.create(author=Author.objects.get(authUser=User.objects.get(username='som')), categorySort='AR', title='ASFGJgaskjgcbKAJLSVBJSABKJBKASJBLKJblvkjaSBKLJBCKJLAsbvkjBVKJBsa
+jvbjksbvkjDBVKJBSdjkvbjkdbsJKBVJksbvkjbSKDJBVjksbvkdjfbkjsaBVJKBFBKJsabvkvbksbvkjBDSKJVBKJSDBVKJBdskjbvkjSBDKJVBJKdsbvkjbDSJKVBJKdsbvjkbDSKJVBKJSbjk')
+<Post: Post object (2)>
+>>> Post.objects.create(author=Author.objects.get(authUser=User.objects.get(username='som')), categorySort='AR', title='AKSHLKNVLKAsnvkJABVlkjsdbv', text='dvksDVNksdbvkjSBCKJsdbvkjsC K
+SNFKashfkSHAKBKsbdkvbSDKVBdsbvkjsbvkjsbvKJSDBVBVksdbvkbvDJSBVKJBVKJSDBVJKBDVKJBVDKJDBVKJVBkjdsbvkjbdkjvbKJDSBVJKSBVKJBDSKJVBJkdsbvkjbdsjkvbKJDSBVKJBSVKJBDSJ')
+<Post: Post object (3)>
+
+>>> post1 = Post.objects.get(pk=1)
+>>> post2 = Post.objects.get(pk=2) 
+>>> post3 = Post.objects.get(pk=3) 
+>>> category1 = Category.objects.get(designation='Society') 
+>>> category2 = Category.objects.get(designation='Technic') 
+>>> category3 = Category.objects.get(designation='Electronic') 
+>>> category4 = Category.objects.get(designation='Programming') 
+
+>>> post1.postCategory.add(category1) 
+>>> post2.postCategory.add(category2) 
+>>> post3.postCategory.add(category3, category4) 
+
+>>> Comment.objects.create(commentUser=User.objects.get(username='semyon'), commentPost=Post.objects.get(pk=1), text='comment 11111') 
+<Comment: semyon>
+>>> Comment.objects.create(commentUser=User.objects.get(username='som'), commentPost=Post.objects.get(pk=2), text='comment 22222')    
+<Comment: som>
+>>> Comment.objects.create(commentUser=User.objects.get(username='som'), commentPost=Post.objects.get(pk=3), text='comment 33333') 
+<Comment: som>
+>>> Comment.objects.create(commentUser=User.objects.get(username='som'), commentPost=Post.objects.get(pk=3), text='comment 44444') 
+<Comment: som>
+
+>>> Post.objects.get(pk=1).like()
+>>> Post.objects.get(pk=1).like()
+>>> Post.objects.get(pk=1).like()
+>>> Post.objects.get(pk=1).dislike() 
+>>> Post.objects.get(pk=2).dislike() 
+>>> Post.objects.get(pk=2).dislike()
+>>> Post.objects.get(pk=2).dislike()
+>>> Post.objects.get(pk=2).like()    
+>>> Post.objects.get(pk=3).like() 
+>>> Post.objects.get(pk=3).like()
+>>> Post.objects.get(pk=3).like()
+>>> Post.objects.get(pk=3).like()
+>>> Post.objects.get(pk=3).like()
+
+>>> Comment.objects.get(pk=1).like() 
+>>> Comment.objects.get(pk=1).like()
+>>> Comment.objects.get(pk=1).like()
+>>> Comment.objects.get(pk=1).like()
+>>> Comment.objects.get(pk=1).like()
+>>> Comment.objects.get(pk=1).dislike() 
+>>> Comment.objects.get(pk=2).like()    
+>>> Comment.objects.get(pk=2).like()
+>>> Comment.objects.get(pk=2).like()
+>>> Comment.objects.get(pk=2).like()
+>>> Comment.objects.get(pk=2).dislike() 
+>>> Comment.objects.get(pk=4).dislike() 
+>>> Comment.objects.get(pk=4).dislike()
+>>> Comment.objects.get(pk=4).dislike()
+>>> Comment.objects.get(pk=4).dislike()
+>>> Comment.objects.get(pk=4).like()    
+>>> Comment.objects.get(pk=3).like() 
+>>> Comment.objects.get(pk=3).dislike() 
+
+>>> Author.objects.get(authUser=User.objects.get(username='semyon')).update_rating()
+>>> Author.objects.get(authUser=User.objects.get(username='som')).update_rating()    
+
+>>> Author.objects.all().order_by('-ratingAuth').values('authUser__username', 'ratingAuth')[0] 
+{'authUser__username': 'semyon', 'ratingAuth': 10}
+
+>>> best = Post.objects.all().order_by('-rating').values('dateCreation', 'author__authUser__username', 'rating', 'title')[0]            
+
+>>> print(best, Post.objects.get(title=best['title']).preview()) 
+{'dateCreation': datetime.datetime(2022, 7, 26, 19, 47, 53, 788711, tzinfo=datetime.timezone.utc), 'author__authUser__username': 'som', 'rating': 5, 'title': 'AKSHLKNVLKAsnvkJABVlkjsdb
+v'} dvksDVNksdbvkjSBCKJsdbvkjsC KSNFKashfkSHAKBKsbdkvbSDKVBdsbvkjsbvkjsbvKJSDBVBVksdbvkbvDJSBVKJBVKJSDBVJKBDVKJBVDKJDBVKJVBkjdsb...
+
+>>> print(*best.values(), Post.objects.get(title=best['title']).preview(), sep=', ') 
+2022-07-26 19:47:53.788711+00:00, som, 5, AKSHLKNVLKAsnvkJABVlkjsdbv, dvksDVNksdbvkjSBCKJsdbvkjsC KSNFKashfkSHAKBKsbdkvbSDKVBdsbvkjsbvkjsbvKJSDBVBVksdbvkbvDJSBVKJBVKJSDBVJKBDVKJBVDKJDB
+VKJVBkjdsb...
+
+>>> comment = Comment.objects.all().filter(commentPost__title=best['title']).values('dateCreation', 'commentUser__username', 'text', 'rating') 
+>>> print(*comment)                                                                                                                            
+{'dateCreation': datetime.datetime(2022, 7, 26, 20, 19, 49, 544367, tzinfo=datetime.timezone.utc), 'commentUser__username': 'som', 'text': 'comment 33333', 'rating': 0} {'dateCreation'
+: datetime.datetime(2022, 7, 26, 20, 20, 3, 474721, tzinfo=datetime.timezone.utc), 'commentUser__username': 'som', 'text': 'comment 44444', 'rating': -3}
