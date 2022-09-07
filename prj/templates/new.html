@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+{% load expletive_filters %}
+{% block title %} 
+New
+{% endblock title %}
+{% block content %}
+<hr/>
+<h1>{{ new.title | censor }}</h1>
+<h4>{{ new.dateCreation|date:'d M Y' }}</h4>
+<p>{{ new.text | censor }}</p>
+{% endblock content %}
+
+
+{
