@@ -6,7 +6,7 @@ New
 {% block content %}
 <hr/>
 <h1>{{ new.title | censor }}</h1>
-<h4>{{ new.dateCreation|date:'d M Y' }}</h4>
+<h4>{{ new.dateCreation|date:'d-M-Y h:m' }}</h4>
 <p>{{ new.text | censor }}</p>
 {% endblock content %}
 
