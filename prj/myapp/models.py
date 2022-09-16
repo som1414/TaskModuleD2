@@ -49,7 +49,16 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return self.text[0:124] + '...'
+        if len(self.text) >= 124:
+            return self.text[:124] + '...'
+        else:
+            return self.text
+
+    def __str__(self):
+        return f'{self.title}: {self.preview()}'
+
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):

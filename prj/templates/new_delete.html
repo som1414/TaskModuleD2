@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+{% load expletive_filters %}
+{% block title %}
+    New
+{% endblock title %}
+{% block content %}
+    <h2>Вы действительно хотите удалить данный товар?</h2>
+    <hr/>
+    <h1>{{ new.title | censor }}</h1>
+    <h4>{{ new.dateCreation|date:'d-M-Y h:m' }}</h4>
+    <p>{{ new.text | censor }}</p>
+    <form method='POST'>
+        {% csrf_token %}
+    <input type='submit' value='Подтверждаю!'></form>
+{% endblock content %}
