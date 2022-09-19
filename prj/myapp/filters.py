@@ -1,5 +1,5 @@
 from django_filters import FilterSet
-from .models import Post, Category, Author
+from .models import Post  # ,Category, Author
 
 
 class NewFilter(FilterSet):

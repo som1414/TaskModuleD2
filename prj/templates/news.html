@@ -68,4 +68,8 @@ News
 {% else %}
     <h2>Новостей нет!</h2>
 {% endif %}
+{% if is_not_authors %}
+<hr/>
+<button> <a href="{% url 'upgrade' %}"> Стать автором </a> </button>
+{% endif %}
 {% endblock content %}
