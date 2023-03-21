@@ -37,7 +37,6 @@ INSTALLED_APPS = [
 
     'django.contrib.flatpages',
 
-    'myapp',
     'django_filters',
 
     'django.contrib.auth',
@@ -48,9 +47,15 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django_apscheduler',
+
+    # 'myapp.apps.MyappConfig',
+    'myapp',
 ]
 
 SITE_ID = 1
+
+SITE_URL = 'http://127.0.0.1:8000'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,7 +139,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -150,3 +157,20 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {'signup': 'myapp.forms.CommonSignupForm'}
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'som1414'
+EMAIL_HOST_PASSWORD = '2106512054185590'
+EMAIL_USE_SSL = True
+
+ADMINS = [
+    ('admin', 'som220776@gmail.com'),
+]
+SERVER_EMAIL = 'som1414@yandex.ru'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

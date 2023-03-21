@@ -22,6 +22,12 @@ class Author(models.Model):
 
 class Category(models.Model):
     designation = models.CharField(max_length=64, unique=True)
+    subscribers = models.ManyToManyField(User, through='Subscriber', blank=True)
+
+
+class Subscriber(models.Model):
+    subscriber_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subscribed_category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Post(models.Model):
@@ -38,7 +44,6 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
     postCategory = models.ManyToManyField(Category, through='PostCategory')
-
 
     def like(self):
         self.rating += 1

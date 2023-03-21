@@ -1,7 +1,9 @@
 from django.forms import ModelForm, BooleanField  # ,EmailField, CharField
-from .models import Post  # Category, Author
+from .models import Post, Category, Author
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
+
+
 # from django.contrib.auth.forms import UserCreationForm
 # from django.contrib.auth.models import User
 
@@ -11,7 +13,7 @@ class NewForm(ModelForm):
 
     class Meta:
         model = Post
-        fields = ['author', 'categorySort', 'postCategory', 'rating']
+        fields = ['author', 'categorySort', "postCategory", 'title', 'text']
 
 
 class CommonSignupForm(SignupForm):
