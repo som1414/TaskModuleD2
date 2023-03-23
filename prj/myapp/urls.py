@@ -2,15 +2,16 @@ from django.urls import path
 from .views import NewsList, NewDetail, NewCreate, NewUpdate, NewDelete, NewFilters, CategoryList, CategoryDetail # ,BaseRegisterView
 from .views import upgrade_me
 from .views import add_subscribe, del_subscribe
+from django.views.decorators.cache import cache_page
 # from django.contrib.auth.views import LoginView, LogoutView
 
 
 urlpatterns = [
-    path('', NewsList.as_view()),
-    path('<int:pk>', NewDetail.as_view(), name='new_detail'),
-    path('search/', NewFilters.as_view(), name='new_search'),
+    path('', cache_page(60*1)(NewsList.as_view()), name='news'),
+    path('<int:pk>/', cache_page(60*5)(NewDetail.as_view()), name='new'),
+    path('search/', NewFilters.as_view(), name='search'),
     path('add/', NewCreate.as_view(), name='new_create'),
-    path('<int:pk>/edit', NewUpdate.as_view(), name='new_update'),
+    path('<int:pk>/edit', NewUpdate.as_view(), name='new_create'),
     path('<int:pk>/delete', NewDelete.as_view(), name='new_delete'),
     path('upgrade/', upgrade_me, name='upgrade'),
     # path('<int:pk>/subscribe/', subscribe_me, name='subscribe'),

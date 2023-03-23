@@ -12,6 +12,7 @@ from datetime import datetime, date
 from django.http import request, HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.core.cache import cache
 from django.contrib.auth.models import User
 
 
@@ -43,6 +44,14 @@ class NewDetail(DetailView):
             context['is_not_subscribed'] = not c.subscribers.filter(username=self.request.user.username).exists()
         return context
 
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'new-{self.kwargs["pk"]}',None)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'new-{self.kwargs["pk"]}', obj)
+
+        return obj
 
 class NewFilters(NewsList):
     template_name = "search.html"
