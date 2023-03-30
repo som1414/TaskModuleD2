@@ -1,3 +1,4 @@
+import os
 from django import template
 
 register = template.Library()
@@ -7,7 +8,7 @@ register = template.Library()
     name='censor'
 )
 def censor(value):
-    with open(r'C:\Users\som\Documents\курс\модуль D2\2.7\TaskModuleD2\prj\myapp\templatetags\badwords.txt', 'r') as file:
+    with open(os.path.join(os.path.dirname(__file__), '.', 'badwords.txt'), 'r') as file:
         for word in file:
             word = word.rstrip().lower()
             if word in value.lower():
